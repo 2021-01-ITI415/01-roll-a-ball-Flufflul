@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
     public TextMeshProUGUI countText;
+    public GameObject winTextObject;
 
     private Rigidbody rb;
     private int count;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
         count = 0;
 
         SetCountText();
+        winTextObject.SetActive(false);
     }
 
     void OnMove(InputValue movementValue) {
@@ -28,8 +30,13 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
+    private int winCondition = 12;
     void SetCountText() {
         countText.text = "Count: " + count.ToString();
+
+        if (count >= winCondition) {
+            winTextObject.SetActive(true);
+        }
     }
 
     void FixedUpdate() {
@@ -42,7 +49,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp")) {
             other.gameObject.SetActive(false);
             count++;
-            
+
             SetCountText();
         }
     }
